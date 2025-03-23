@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 ### General ###
-data
+data/
 
 ### STS ###
 .apt_generated
