@@ -19,6 +19,8 @@ public class User {
 
     @NotBlank(message = "The email is required")
     @Email(message = "The email must be a valid email address")
+    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+            message = "The email must be a valid email address")
     @Column(unique = true, nullable = false)
     private String email;
 

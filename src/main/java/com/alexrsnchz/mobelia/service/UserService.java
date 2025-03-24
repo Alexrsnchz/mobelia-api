@@ -1,5 +1,6 @@
 package com.alexrsnchz.mobelia.service;
 
+import com.alexrsnchz.mobelia.exception.EmailAlreadyExistsException;
 import com.alexrsnchz.mobelia.model.User;
 import com.alexrsnchz.mobelia.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,6 +24,10 @@ public class UserService {
     }
 
     public User store(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new EmailAlreadyExistsException("That email already exists");
+        }
+
         return userRepository.save(user);
     }
 
