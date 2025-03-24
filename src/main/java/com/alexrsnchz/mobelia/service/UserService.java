@@ -34,7 +34,7 @@ public class UserService {
     public User update(Long id, User user) {
         User userToUpdate = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        userToUpdate.setName(user.getName());
+        userToUpdate.setAlias(user.getAlias());
         userToUpdate.setEmail(user.getEmail());
         userToUpdate.setPassword(user.getPassword());
         userToUpdate.setAddress(user.getAddress());

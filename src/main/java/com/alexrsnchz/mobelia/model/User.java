@@ -14,8 +14,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 3, max = 30, message = "The name must be between 3 and 30 characters")
-    private String name;
+    @Size(min = 3, max = 30, message = "The alias must be between 3 and 30 characters")
+    private String alias;
 
     @NotBlank(message = "The email is required")
     @Email(message = "The email must be a valid email address")
@@ -39,9 +39,9 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String name, String email, String password, String address, String phone) {
+    public User(Long id, String alias, String email, String password, String address, String phone) {
         this.id = id;
-        this.name = name;
+        this.alias = alias;
         this.email = email;
         this.password = password;
         this.address = address;
@@ -56,12 +56,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getAlias() {
+        return alias;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     public String getEmail() {
