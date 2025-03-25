@@ -1,5 +1,6 @@
 package com.alexrsnchz.mobelia.util;
 
+import com.alexrsnchz.mobelia.exception.CategoryAlreadyExistsException;
 import com.alexrsnchz.mobelia.exception.EmailAlreadyExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -32,9 +33,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
-    // Duplicated unique key or null value passed on not nullable fields
+    // Duplicated unique email key on user based requests
     @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<Map<String, Object>> handleIntegrityViolationException(EmailAlreadyExistsException ex) {
+    public ResponseEntity<Map<String, Object>> handleEmailAlreadyExistsException(EmailAlreadyExistsException ex) {
         Map<String, Object> response = new HashMap<>();
         response.put("message", ex.getMessage());
         response.put("status", HttpStatus.CONFLICT.value());
@@ -42,6 +43,18 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
+
+    // Duplicated unique name key on category based requests
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    public ResponseEntity<Map<String, Object>> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", ex.getMessage());
+        response.put("status", HttpStatus.CONFLICT.value());
+        response.put("timestamps", LocalDateTime.now().format(formatter));
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
 
     // Missing body on a request that requires it
     @ExceptionHandler(HttpMessageNotReadableException.class)
