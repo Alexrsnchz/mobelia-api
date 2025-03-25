@@ -2,6 +2,7 @@ package com.alexrsnchz.mobelia.util;
 
 import com.alexrsnchz.mobelia.exception.CategoryAlreadyExistsException;
 import com.alexrsnchz.mobelia.exception.EmailAlreadyExistsException;
+import com.alexrsnchz.mobelia.exception.ProductAlreadyExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,17 @@ public class GlobalExceptionHandler {
     // Duplicated unique name key on category based requests
     @ExceptionHandler(CategoryAlreadyExistsException.class)
     public ResponseEntity<Map<String, Object>> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", ex.getMessage());
+        response.put("status", HttpStatus.CONFLICT.value());
+        response.put("timestamps", LocalDateTime.now().format(formatter));
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    // Duplicated unique name key on product based requests
+    @ExceptionHandler(ProductAlreadyExistsException.class)
+    public ResponseEntity<Map<String, Object>> handleProductAlreadyExistsException(ProductAlreadyExistsException ex) {
         Map<String, Object> response = new HashMap<>();
         response.put("message", ex.getMessage());
         response.put("status", HttpStatus.CONFLICT.value());
