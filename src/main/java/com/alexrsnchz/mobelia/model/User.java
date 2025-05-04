@@ -1,51 +1,85 @@
 package com.alexrsnchz.mobelia.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
+@Schema(description = "User model / entity")
 public class User {
+    /*
+
+    id:         Long    /  Required  /  Unique
+    alias:      String  /  Nullable
+    email:      String  /  Required  /  Unique
+    password:   String  /  Required
+    address:    Address /  Nullable
+    phone:      String  /  Nullable
+    createdAt   Date    /  Required
+    updatedAt   Date    /  Required
+
+     */
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 3, max = 30, message = "The alias must be between 3 and 30 characters")
+    @Size(max = 25, message = "The alias cannot be more than 25 characters long")
+    @Column(length = 25)
+    @Schema(description = "Alias of the user")
     private String alias;
 
-    @NotBlank(message = "The email is required")
-    @Email(message = "The email must be a valid email address")
-    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
-            message = "The email must be a valid email address")
-    @Column(unique = true, nullable = false)
+    @NotBlank(message = "The email cannot be empty")
+    @Email(message = "The string must be a valid email")
+    @Column(nullable = false, unique = true, length = 244)
+    @Schema(description = "Email of the user")
     private String email;
 
-    @NotBlank(message = "The password is required")
-    @Size(min = 8, message = "The password must be at least 8 characters long")
+    @NotBlank(message = "The password cannot be empty")
+    @Size(max = 60, message = "The password cannot be more than 60 characters long")
     @Column(nullable = false, length = 60)
+    @Schema(description = "Password of the user", hidden = true)
     private String password;
 
-    @Size(max = 255, message = "The address cannot be more than 255 characters long")
-    private String address;
+    @Schema(description = "Address associated with the user")
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
-    @Pattern(regexp = "^[+][0-9]{1,4}[0-9]{10,15}$", message = "The phone number must be a valid format")
+    @Size(max = 20, message = "The phone number cannot be more than 20 characters")
     @Column(length = 20)
+    @Schema(description = "Phone number of the user")
     private String phone;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @Schema(description = "User creation time")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @Schema(description = "User update time")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     public User() {
     }
 
-    public User(Long id, String alias, String email, String password, String address, String phone) {
+    public User(Long id, String alias, String email, String password, Address address, String phone, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.alias = alias;
         this.email = email;
         this.password = password;
         this.address = address;
         this.phone = phone;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -69,7 +103,7 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email.trim();
+        this.email = email;
     }
 
     public String getPassword() {
@@ -80,11 +114,11 @@ public class User {
         this.password = password;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
@@ -94,6 +128,22 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }
