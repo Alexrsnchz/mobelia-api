@@ -49,8 +49,8 @@ public class User {
     private String password;
 
     @Schema(description = "Address associated with the user")
-    @ManyToOne
-    @JoinColumn(name = "address_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
     @Size(max = 20, message = "The phone number cannot be more than 20 characters")

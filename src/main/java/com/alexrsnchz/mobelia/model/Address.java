@@ -79,10 +79,6 @@ public class Address {
     @Schema(description = "Country of the province", defaultValue = "España", example = "España")
     private String country = "España";
 
-    @Schema(description = "List of users that linked to the address")
-    @OneToMany(mappedBy = "address")
-    private List<User> users;
-
     @Column(name = "created_at", nullable = false, updatable = false)
     @Schema(description = "Address creation time")
     @CreationTimestamp
@@ -96,7 +92,7 @@ public class Address {
     public Address() {
     }
 
-    public Address(Long id, String type, String name, int number, String zipCode, String city, String province, List<User> users, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Address(Long id, String type, String name, int number, String zipCode, String city, String province, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -104,7 +100,6 @@ public class Address {
         this.zipCode = zipCode;
         this.city = city;
         this.province = province;
-        this.users = users;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -167,14 +162,6 @@ public class Address {
 
     public String getCountry() {
         return country;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
     }
 
     public LocalDateTime getCreatedAt() {
