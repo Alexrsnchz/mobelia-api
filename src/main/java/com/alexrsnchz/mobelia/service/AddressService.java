@@ -1,12 +1,12 @@
 package com.alexrsnchz.mobelia.service;
 
+import com.alexrsnchz.mobelia.exception.ResourceNotFoundException;
 import com.alexrsnchz.mobelia.model.Address;
 import com.alexrsnchz.mobelia.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AddressService {
@@ -18,12 +18,8 @@ public class AddressService {
         return addressRepository.findAll();
     }
 
-    public Optional<Address> getById(Long id) {
-        if (!addressRepository.existsById(id)) {
-            throw new RuntimeException("Address not found");
-        }
-
-        return addressRepository.findById(id);
+    public Address getById(Long id) {
+        return addressRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Address not found"));
     }
 
     public Address create(Address address) {
@@ -31,12 +27,21 @@ public class AddressService {
     }
 
     public Address update(Address address, Long id) {
-        return addressRepository.save(address);
+        Address addressToUpdate = addressRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Address not found"));
+
+        addressToUpdate.setType(address.getType());
+        addressToUpdate.setName(address.getName());
+        addressToUpdate.setNumber(address.getNumber());
+        addressToUpdate.setZipCode(address.getZipCode());
+        addressToUpdate.setCity(address.getCity());
+        addressToUpdate.setProvince(address.getProvince());
+
+        return addressRepository.save(addressToUpdate);
     }
 
     public void deleteById(Long id) {
         if (!addressRepository.existsById(id)) {
-            throw new RuntimeException("Address not found");
+            throw new ResourceNotFoundException("Address not found");
         }
 
         addressRepository.deleteById(id);

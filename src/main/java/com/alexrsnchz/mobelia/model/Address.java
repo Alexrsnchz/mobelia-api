@@ -160,10 +160,6 @@ public class Address {
         this.province = province;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
