@@ -6,7 +6,7 @@ A RESTful API built with Spring Boot for Möbelia, serving as the backend that p
 ## ⚙️ Features
 
 - MVC Arquitecture.
-- RESTful API
+- RESTful API.
 - API docs with Swagger.
 
 ## 💻 Tech Stack
