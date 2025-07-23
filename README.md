@@ -1,7 +1,7 @@
 
 # 🛋 Möbelia - API
 
-A RESTful API built with Spring Boot for Möbelia, serving as the backend that provides data to the application.
+A RESTful API built with Spring Boot for Möbelia, serving as the backend that provides all the data to the application.
 
 ## ⚙️ Features
 
